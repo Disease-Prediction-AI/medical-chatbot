@@ -1,0 +1,17 @@
+pypdf
+langchain
+torch 
+torchvision
+torchaudio
+bitsandbytes
+ctransformers
+sentence_transformers
+python-dotenv
+undetected-chromedriver
+openai
+tiktoken
+g4f
+faiss_cpu
+fastapi
+pinecone-client
+uvicorn[standard]

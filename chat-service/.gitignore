@@ -1,0 +1,6 @@
+__pycache__
+vectorstore
+venv
+chainlit.md
+data/**
+.env
