@@ -23,6 +23,7 @@ workflows:
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
           docker-context: ./api-service
+          path: ./api-service
 
       - docker/publish:
           image: $DOCKER_USERNAME/$APP_NAME
@@ -30,6 +31,7 @@ workflows:
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
           docker-context: ./chat-service
+          path: ./chat-service
 
       - docker/publish:
           image: $DOCKER_USERNAME/$APP_NAME
@@ -37,6 +39,7 @@ workflows:
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
           docker-context: ./frontend
+          path: ./frontend
         
 
 
