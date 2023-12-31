@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { FaSpinner } from "react-icons/fa";
 import AiMessage from "./AiMessage";
 import UserMessage from "./UserMessage";
 
@@ -13,7 +12,7 @@ function App() {
       const conversationId = localStorage.getItem("conversationId");
       if (conversationId) {
         const response = await fetch(
-          `http://localhost:8001/api/conversation/${conversationId}`
+          `/api/conversation/${conversationId}`
         );
         const data = await response.json();
         if (!data.error) {
@@ -60,7 +59,7 @@ function App() {
     setConversation({ conversation: newConversation });
     setUserMessage("");
     const response = await fetch(
-      `http://localhost:8001/api/conversation/${conversationId}`,
+      `/api/conversation/${conversationId}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
