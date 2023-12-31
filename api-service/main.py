@@ -5,6 +5,7 @@ from pydantic import BaseModel
 import redis
 import requests
 import json
+import os
 
 
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -48,7 +49,7 @@ async def create_message(conversation_id: str, conversation: Conversation):
 
     existing_conversation["conversation"].append(conversation.dict()["conversation"][-1])
 
-    response = requests.post(f"http://localhost:8000/chat/{conversation_id}", json=existing_conversation)
+    response = requests.post(f"http://{os.getenv('chat-service')}/chat/{conversation_id}", json=existing_conversation)
     response.raise_for_status()
     assistant_message = response.json()["reply"]
 
