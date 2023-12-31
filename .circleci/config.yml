@@ -18,7 +18,7 @@ workflows:
   build-push-to-dockerhub:
     jobs:
       - docker/publish:
-          image: $DOCKER_USERNAME/$APP_NAME
+          image: $DOCKER_USERNAME/$APP_NAME-api-service
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
@@ -26,7 +26,7 @@ workflows:
           path: ./api-service
 
       - docker/publish:
-          image: $DOCKER_USERNAME/$APP_NAME
+          image: $DOCKER_USERNAME/$APP_NAME-chat-service
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
@@ -34,7 +34,7 @@ workflows:
           path: ./chat-service
 
       - docker/publish:
-          image: $DOCKER_USERNAME/$APP_NAME
+          image: $DOCKER_USERNAME/$APP_NAME-frontend
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
