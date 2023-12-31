@@ -1,7 +1,5 @@
 pypdf
 langchain
-bitsandbytes
-sentence_transformers
 python-dotenv
 openai
 tiktoken
