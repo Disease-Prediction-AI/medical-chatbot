@@ -20,22 +20,22 @@ workflows:
       - docker/publish:
           image: $DOCKER_USERNAME/$CIRCLE_PROJECT_REPONAME
           tag: $CIRCLE_SHA1, latest
-          docker-password: $DOCKER_PASSWORD
-          docker_username: $DOCKER_USERNAME
+          docker-password: DOCKER_PASSWORD
+          docker-username: DOCKER_USERNAME
           docker-context: ./api-service
 
       - docker/publish:
           image: $DOCKER_USERNAME/$CIRCLE_PROJECT_REPONAME
           tag: $CIRCLE_SHA1, latest
-          docker-password: $DOCKER_PASSWORD
-          docker_username: $DOCKER_USERNAME
+          docker-password: DOCKER_PASSWORD
+          docker-username: DOCKER_USERNAME
           docker-context: ./chat-service
 
       - docker/publish:
           image: $DOCKER_USERNAME/$CIRCLE_PROJECT_REPONAME
           tag: $CIRCLE_SHA1, latest
-          docker-password: $DOCKER_PASSWORD
-          docker_username: $DOCKER_USERNAME
+          docker-password: DOCKER_PASSWORD
+          docker-username: DOCKER_USERNAME
           docker-context: ./frontend
         
 
