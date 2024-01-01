@@ -8,7 +8,7 @@ import json
 import os
 
 
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis(host=os.getenv("REDIS_HOST"), port=os.getenv("REDIS_PORT"), db=0)
 
 app = FastAPI()
 app.add_middleware(
