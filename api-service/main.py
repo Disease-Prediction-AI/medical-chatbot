@@ -8,7 +8,12 @@ import json
 import os
 
 
-r = redis.Redis(host=os.getenv("REDIS_HOST"), port=os.getenv("REDIS_PORT"), db=0)
+r = redis.Redis(
+    host=os.getenv("REDIS_HOST"),
+    port=os.getenv("REDIS_PORT"),
+    username=os.getenv("REDIS_USERNAME"), # use your Redis user. More info https://redis.io/docs/management/security/acl/
+    password=os.getenv("REDIS_PASSWORD"), # use your Redis password
+    db=0)
 
 app = FastAPI()
 app.add_middleware(
