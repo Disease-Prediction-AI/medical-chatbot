@@ -54,7 +54,7 @@ async def create_message(conversation_id: str, conversation: Conversation):
 
     existing_conversation["conversation"].append(conversation.dict()["conversation"][-1])
 
-    response = requests.post(f"http://{os.getenv('chat-service')}/chat/{conversation_id}", json=existing_conversation)
+    response = requests.post(f"http://{os.getenv('chat-service')}:8000/chat/{conversation_id}", json=existing_conversation)
     response.raise_for_status()
     assistant_message = response.json()["reply"]
 
