@@ -1,9 +1,0 @@
-pypdf
-langchain
-python-dotenv
-openai
-tiktoken
-g4f
-fastapi
-pinecone-client
-uvicorn[standard]

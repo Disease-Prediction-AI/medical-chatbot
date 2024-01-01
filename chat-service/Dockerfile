@@ -5,10 +5,10 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the requirements file to the working directory
-COPY requirements-docker.txt .
+COPY requirements.txt .
 
 # Install the Python dependencies
-RUN pip install -r requirements-docker.txt
+RUN pip install -r requirements.txt
 
 # Copy the application code to the working directory
 COPY . .
