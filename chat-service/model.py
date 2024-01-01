@@ -72,7 +72,7 @@ def load_llm():
 
 #output function
 def get_answer(conversation):
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",model_kwargs={'device':'cuda'})
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",model_kwargs={'device':'cpu'})
     query = conversation.conversation[-1].content
     db = Pinecone.from_existing_index(INDEX_NAME, embeddings)
     retriever = db.as_retriever()
