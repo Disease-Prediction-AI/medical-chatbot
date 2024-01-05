@@ -35,9 +35,9 @@ jobs:
           name: Modify image tags
           working_directory: ~/manifests
           command: |
-            kustomize set image $DOCKER_USERNAME/$APP_NAME-api-service=$DOCKER_USERNAME/$APP_NAME-api-service:$CIRCLE_SHA1
-            kustomize set image $DOCKER_USERNAME/$APP_NAME-chat-service=$DOCKER_USERNAME/$APP_NAME-chat-service:$CIRCLE_SHA1
-            kustomize set image $DOCKER_USERNAME/$APP_NAME-frontend=$DOCKER_USERNAME/$APP_NAME-frontend:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/$APP_NAME-api-service=$DOCKER_USERNAME/$APP_NAME-api-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/$APP_NAME-chat-service=$DOCKER_USERNAME/$APP_NAME-chat-service:$CIRCLE_SHA1
+            kustomize edit set image $DOCKER_USERNAME/$APP_NAME-frontend=$DOCKER_USERNAME/$APP_NAME-frontend:$CIRCLE_SHA1
       - run:
           name: Commit & Push to manifests Github repo
           working_directory: ~/manifests
