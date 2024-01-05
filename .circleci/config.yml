@@ -14,9 +14,8 @@ jobs:
           command: |
             URL="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
             curl -s $URL | bash
-            [ -w /usr/local/bin ] && SUDO="" | SUDO=sudo
-            $SUDO chmod +x ./kustomize
-            $SUDO mv ./kustomize /usr/local/bin
+            sudo chmod +x ./kustomize
+            sudo mv ./kustomize /usr/local/bin
       - add_ssh_keys:
           fingerprints:
             - "$SSH_FINGERPRINT"
