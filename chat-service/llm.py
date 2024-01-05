@@ -34,13 +34,14 @@ class EducationalLLM:
     ) -> str:    
 
         out = g4f.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=g4f.models.default,
+            provider=g4f.Provider.You,
             messages=list(map(lambda message: {"role": message.type, "content": message.content}, messages)),
-        )  #
+        )
         if stop:
             stop_indexes = (out.find(s) for s in stop if s in out)
             min_stop = min(stop_indexes, default=-1)
             if min_stop > -1:
                 out = out[:min_stop]
-        
+        # out=HuggingFaceHub(repo_id="google/flan-t5-xl", model_kwargs={"temperature":0, "max_length":512})
         return out

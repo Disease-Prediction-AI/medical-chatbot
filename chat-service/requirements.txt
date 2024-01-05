@@ -5,6 +5,7 @@ pypdf
 langchain
 bitsandbytes
 sentence_transformers
+huggingface_hub
 python-dotenv
 openai
 tiktoken
