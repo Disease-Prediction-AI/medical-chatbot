@@ -18,7 +18,7 @@ jobs:
             sudo mv ./kustomize /usr/local/bin
       - add_ssh_keys:
           fingerprints:
-            - "$SSH_FINGERPRINT"
+            - "84:65:e7:d0:75:63:07:cb:08:7c:19:c2:2d:74:59:ba"
       - run: 
           name: "establish authenticity of github"
           command: |
