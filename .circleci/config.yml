@@ -50,7 +50,7 @@ jobs:
   
 
 workflows:
-  build-push-to-dockerhub:
+  build-push-tag-image:
     jobs:
       - docker/publish:
           name: "Push api service image"
@@ -80,7 +80,9 @@ workflows:
           path: ./frontend
       - tag-docker-images:
           requires:
-            - "docker/publish"
+            - "Push api service image"
+            - "Push chat service image"
+            - "Push frontend image"
         
 
 
