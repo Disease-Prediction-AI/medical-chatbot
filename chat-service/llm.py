@@ -34,7 +34,7 @@ class EducationalLLM:
     ) -> str:    
 
         out = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_4,
+            model="gpt-3.5-turbo",
             messages=list(map(lambda message: {"role": message.type, "content": message.content}, messages)),
         )  #
         if stop:
