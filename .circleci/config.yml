@@ -3,12 +3,47 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.4.0
   
-# jobs:
-#   build:
-#     executor: docker/docker
-#     steps:
-#       - checkout:
-#           path: 
+
+jobs:
+  tag-docker-images:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Install Kustomize
+          command: |
+            URL="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
+            curl -s $URL | bash
+            [ -w /usr/local/bin ] && SUDO="" | SUDO=sudo
+            $SUDO chmod +x ./kustomize
+            $SUDO mv ./kustomize /usr/local/bin
+      - add_ssh_keys:
+          fingerprints:
+            - "$SSH_FINGERPRINT"
+      - run:
+          name: Clone manifests github repo
+          working_directory: ~/
+          command: |
+            URL="git@github.com:Disease-Prediction-AI/medical-disease-detection-manifests.git"
+            git clone $URL manifests
+      - run:
+          name: Modify image tags
+          working_directory: ~/manifests
+          command: |
+            kustomize set image $DOCKER_USERNAME/$APP_NAME-api-service=$DOCKER_USERNAME/$APP_NAME-api-service:$CIRCLE_SHA1
+            kustomize set image $DOCKER_USERNAME/$APP_NAME-chat-service=$DOCKER_USERNAME/$APP_NAME-chat-service:$CIRCLE_SHA1
+            kustomize set image $DOCKER_USERNAME/$APP_NAME-frontend=$DOCKER_USERNAME/$APP_NAME-frontend:$CIRCLE_SHA1
+      - run:
+          name: Commit & Push to manifests Github repo
+          working_directory: ~/manifests
+          command: |
+            git config user.email "$GITHUB_EMAIL"
+            git config user.name "CircleCI User"
+            git add kustomization.yml
+            git commit -am "Modified docker image tags [skip ci]"
+            git push origin main
+
+
       
 
 
@@ -18,6 +53,7 @@ workflows:
   build-push-to-dockerhub:
     jobs:
       - docker/publish:
+          name: "Push api service image"
           image: $DOCKER_USERNAME/$APP_NAME-api-service
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
@@ -26,6 +62,7 @@ workflows:
           path: ./api-service
 
       - docker/publish:
+          name: "Push chat service image"
           image: $DOCKER_USERNAME/$APP_NAME-chat-service
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
@@ -34,12 +71,16 @@ workflows:
           path: ./chat-service
 
       - docker/publish:
+          name: "Push frontend image"
           image: $DOCKER_USERNAME/$APP_NAME-frontend
           tag: $CIRCLE_SHA1,latest
           docker-password: DOCKER_PASSWORD
           docker-username: DOCKER_USERNAME
           docker-context: ./frontend
           path: ./frontend
+      - tag-docker-images:
+          requires:
+            - "docker/publish"
         
 
 
