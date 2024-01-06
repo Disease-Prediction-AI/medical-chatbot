@@ -37,6 +37,7 @@ custom_prompt_template = """Use the following pieces of information to answer th
 If you don't know the answer, just say that I don't know, don't try to make up an answer.
 
 Context: {context}
+Question: {question}
 
 Only return the helpful answer below and nothing else.
 Helpful answer:
@@ -47,7 +48,7 @@ def set_custom_prompt():
     Prompt template for QA retrieval for each vectorstore
     """
     prompt = PromptTemplate(template=custom_prompt_template,
-                            input_variables=['context'])
+                            input_variables=['context', 'question'])
     system_message_prompt = SystemMessagePromptTemplate(prompt=prompt)
     return system_message_prompt    
 
@@ -59,7 +60,7 @@ def create_messages(conversation):
 def format_docs(docs):
     formatted_docs = []
     for doc in docs:
-        formatted_doc = "Source: " + doc.metadata['source']
+        formatted_doc = "Source: " + doc.page_content
         formatted_docs.append(formatted_doc)
     return '\n'.join(formatted_docs)
 
@@ -76,12 +77,14 @@ def get_answer(conversation):
     query = conversation.conversation[-1].content
     db = Pinecone.from_existing_index(INDEX_NAME, embeddings)
     retriever = db.as_retriever()
-    docs = retriever.get_relevant_documents(query=query)
+    docs = retriever.get_relevant_documents(query=query, k=2)
     docs = format_docs(docs=docs)
-    prompt = set_custom_prompt().format(context=docs)
-    messages = [prompt] + create_messages(conversation=conversation.conversation)
+    prompt = set_custom_prompt().format(context=docs, question=query)
+    # messages = [prompt] + create_messages(conversation=conversation.conversation)
+    messages = [prompt]
     llm = load_llm()
     response = llm(messages)
+    print(response)
     return response
 
 
